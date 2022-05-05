@@ -1,7 +1,7 @@
 # 项目相关配置
 ruoyi:
   # 名称
-  name: RuoYi-Vue-Plus
+  name: StudyRoom-Vue-Plus
   # 版本
   version: ${ruoyi-vue-plus.version}
   # 版权年份
@@ -98,7 +98,7 @@ sa-token:
   # token有效期 设为一天 (必定过期) 单位: 秒
   timeout: 86400
   # token临时有效期 (指定时间无操作就过期) 单位: 秒
-  activity-timeout: 1800
+  activity-timeout: 86400
   # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
   is-concurrent: true
   # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
@@ -190,7 +190,7 @@ swagger:
   # 是否开启swagger
   enabled: true
   # 请求前缀
-  pathMapping: /dev-api
+  pathMapping: /
   # 标题
   title: '标题：${ruoyi.name}后台管理系统_接口文档'
   # 描述
@@ -209,6 +209,11 @@ swagger:
       basePackage: com.ruoyi.web
     - name: 3.代码生成模块
       basePackage: com.ruoyi.generator
+    - name: 4.自习室后台模块
+      basePackage: com.ruoyi.studyroom
+    - name: 5.自习室微信模块
+      basePackage: com.ruoyi.studyroom.wx
+
 
 knife4j:
   # 是否开启Knife4j增强模式

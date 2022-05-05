@@ -315,8 +315,9 @@
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
         <module>ruoyi-demo</module>
-        <module>ruoyi-extend</module>
         <module>ruoyi-oss</module>
+        <module>ruoyi-studyroom</module>
+        <module>ruoyi-studyroom-wx</module>
     </modules>
     <packaging>pom</packaging>
 
