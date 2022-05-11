@@ -50,7 +50,7 @@ public class WxLoginService {
     public String wxLogin(String appid, String code) throws WxErrorException {
         HttpServletRequest request = ServletUtils.getRequest();
         // xcxCode 为 小程序调用 wx.login 授权后获取
-        // todo 以下自行实现
+        //
         // 校验 appid + appsrcret + xcxCode 调用登录凭证校验接口 获取 session_key 与 openid
         final WxMaService wxMaService = WxMaConfiguration.getMaService(appid);
         WxMaJscode2SessionResult result = wxMaService.jsCode2SessionInfo(code);
@@ -101,11 +101,11 @@ public class WxLoginService {
             user.setOpenid(openid);
             UserBo bo = BeanUtil.toBean(user, UserBo.class);
             return userService.insertByOpenidAndBalance(bo);
-            // todo 用户不存在 业务逻辑自行实现
+
         } else if (WxUserStatus.DISABLE.getCode().equals(String.valueOf(user.getStatus()))) {
             log.info("登录用户：{} 已被停用.", openid);
             throw new UserException("您的账号已被停用，请联系店家。");
-            // todo 用户已被停用 业务逻辑自行实现
+
         }
         return user;
     }
