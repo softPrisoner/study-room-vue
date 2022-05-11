@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.studyroom.mapper.RecordMapper">
+
+    <resultMap type="com.ruoyi.studyroom.domain.vo.RecordVo" id="RecordResult">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="hours" column="hours"/>
+        <association property="user" javaType="user">
+            <result property="userId" column="user_id"/>
+            <result property="openid" column="openid"/>
+            <result property="nickname" column="nickname"/>
+            <result property="avatarUrl" column="avatar_url"/>
+            <result property="sex" column="sex"/>
+            <result property="phone" column="phone"/>
+            <result property="status" column="status"/>
+        </association>
+
+    </resultMap>
+    <select id="selectVoListAndUser" resultMap="RecordResult">
+        select su.user_id, su.nickname, su.avatar_url, su.sex, su.phone,sr.hours
+        from sr_record sr left join sr_user su
+                on sr.user_id = su.user_id ${ew.customSqlSegment}
+        order by hours desc
+    </select>
+</mapper>

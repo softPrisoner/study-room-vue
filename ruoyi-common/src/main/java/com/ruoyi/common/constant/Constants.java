@@ -1,5 +1,7 @@
 package com.ruoyi.common.constant;
 
+import java.math.BigDecimal;
+
 /**
  * 通用常量信息
  *
@@ -122,5 +124,30 @@ public interface Constants {
      */
     String SYS_DICT_KEY = "sys_dict:";
 
+    /**
+     * 微信支付附加数据 优惠卡订单
+     */
+    String CARD = "card";
+
+    /**
+     * 微信支付附件数据 充值订单
+     */
+    String RECHARGE = "recharge";
+
+
+    /**
+     * 元转分
+     */
+     BigDecimal MULTIPLE = new BigDecimal("100");
+
+    /**
+     * 排行榜缓存key
+     */
+    String RECORD_RANK = "record_rank";
+
+    /**
+     * key过期时间1小时
+     */
+    Long timeout = 60 * 60L;
 }
 

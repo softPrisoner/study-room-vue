@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.core.domain.model.XcxLoginUser;
 import com.ruoyi.common.enums.DeviceType;
 import com.ruoyi.common.enums.UserType;
 import com.ruoyi.common.exception.UtilException;
@@ -71,7 +72,13 @@ public class LoginHelper {
         }
         return (LoginUser) StpUtil.getTokenSession().get(LOGIN_USER_KEY);
     }
+    /**
+     * 获取微信用户(多级缓存)
+     */
+    public static XcxLoginUser getWxLoginUser() {
 
+        return (XcxLoginUser) StpUtil.getTokenSession().get(LOGIN_USER_KEY);
+    }
     /**
      * 清除一级缓存 防止内存问题
      */

@@ -78,6 +78,17 @@
             <artifactId>ruoyi-demo</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-studyroom</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-studyroom-wx</artifactId>
+            <version>4.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -2,6 +2,7 @@ package com.ruoyi.common.utils.redis;
 
 import cn.hutool.core.collection.IterUtil;
 import com.ruoyi.common.utils.spring.SpringUtils;
+import javafx.util.Duration;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.redisson.api.*;

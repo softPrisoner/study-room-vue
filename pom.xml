@@ -56,6 +56,9 @@
         <docker.namespace>ruoyi</docker.namespace>
         <docker.plugin.version>1.2.2</docker.plugin.version>
 
+        <!-- 微信Java开发包-->
+        <wx.java.version>4.3.0</wx.java.version>
+
     </properties>
 
     <!-- 依赖声明 -->
@@ -71,6 +74,11 @@
                 <scope>import</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>1.5.1.RELEASE</version>
+            </dependency>
             <!-- hutool 的依赖配置-->
             <dependency>
                 <groupId>cn.hutool</groupId>
@@ -302,6 +310,19 @@
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-demo</artifactId>
                 <version>${ruoyi-vue-plus.version}</version>
+            </dependency>
+
+            <!--微信Java开发工具包-->
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-miniapp</artifactId>
+                <version>${wx.java.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-pay</artifactId>
+                <version>${wx.java.version}</version>
             </dependency>
 
         </dependencies>

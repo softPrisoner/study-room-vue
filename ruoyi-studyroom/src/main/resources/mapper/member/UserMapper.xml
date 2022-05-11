@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.studyroom.mapper.UserMapper">
+
+    <resultMap type="com.ruoyi.studyroom.domain.User" id="UserResult">
+        <result property="userId" column="user_id"/>
+        <result property="openid" column="openid"/>
+        <result property="nickname" column="nickname"/>
+        <result property="avatarUrl" column="avatar_url"/>
+        <result property="sex" column="sex"/>
+        <result property="phone" column="phone"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    <select id="selectVoByOpenid" resultType="com.ruoyi.studyroom.domain.User">
+        select user_id, openid, nickname, avatar_url, sex, phone, status from sr_user ${ew.customSqlSegment}
+    </select>
+</mapper>
