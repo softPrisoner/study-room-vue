@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ruoyi.studyroom.mapper.RoomSeatMapper">
 
     <resultMap type="com.ruoyi.studyroom.domain.vo.RoomSeatVo" id="RoomSeatResult">
-        <result property="id" column="id"/>
+
         <result property="roomId" column="room_id"/>
         <result property="seatId" column="seat_id"/>
         <association property="seat" javaType="com.ruoyi.studyroom.domain.Seat">

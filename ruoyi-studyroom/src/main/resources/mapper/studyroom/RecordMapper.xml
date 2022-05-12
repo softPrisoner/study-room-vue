@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id" column="id"/>
         <result property="userId" column="user_id"/>
         <result property="hours" column="hours"/>
-        <association property="user" javaType="user">
+        <association property="user" javaType="com.ruoyi.studyroom.domain.User">
             <result property="userId" column="user_id"/>
             <result property="openid" column="openid"/>
             <result property="nickname" column="nickname"/>

@@ -1,6 +1,8 @@
 package com.ruoyi.studyroom.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.constant.PayConstants;
 import com.ruoyi.common.helper.LoginHelper;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -28,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 订单Service业务层处理
@@ -103,7 +106,7 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public Boolean insertByBo(OrderBo bo) {
         //使用账户余额预定座位
-        if (bo.getFlag() == 0){
+        if (Constants.PAY_BALANCE.equals(bo.getFlag())){
             BalanceVo balanceVo = balanceService.queryById(LoginHelper.getUserId());
             BalanceBo balanceBo = BeanUtil.toBean(balanceVo, BalanceBo.class);
             if ( balanceBo.getBalance() >= bo.getTotal()){
@@ -135,9 +138,16 @@ public class OrderServiceImpl implements IOrderService {
      * @param bo 订单
      * @return 结果
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean updateByBo(OrderBo bo) {
         Order update = BeanUtil.toBean(bo, Order.class);
+        if (PayConstants.CONSUMED.equals(bo.getPayStatus())){
+            RecordVo recordVo = recordService.queryByUserId(bo.getUserId());
+            RecordBo recordBo = BeanUtil.toBean(recordVo, RecordBo.class);
+            recordBo.setHours(recordVo.getHours()+ bo.getHours());
+            recordService.updateByBo(recordBo);
+        }
         validEntityBeforeSave(update);
         return baseMapper.updateById(update) > 0;
     }
@@ -151,12 +161,12 @@ public class OrderServiceImpl implements IOrderService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean updateByBoAndRank(OrderBo orderBo) {
-
+        Order update = BeanUtil.toBean(orderBo, Order.class);
         RecordVo recordVo = recordService.queryByUserId(LoginHelper.getUserId());
         RecordBo recordBo = BeanUtil.toBean(recordVo, RecordBo.class);
         recordBo.setHours(recordVo.getHours()+ orderBo.getHours());
-
-        return updateByBo(orderBo).equals(recordService.updateByBo(recordBo));
+        boolean order = baseMapper.updateById(update) > 0;
+        return Objects.equals(order, recordService.updateByBo(recordBo));
     }
 
     /**

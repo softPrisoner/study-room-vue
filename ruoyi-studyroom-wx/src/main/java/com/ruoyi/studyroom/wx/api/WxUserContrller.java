@@ -117,7 +117,7 @@ public class WxUserContrller extends BaseController {
         if (!RedisUtils.hasKey(Constants.RECORD_RANK)) {
             List<RecordVo> list = recordService.queryDescList();
             RedisUtils.setCacheList(Constants.RECORD_RANK, list);
-            RedisUtils.expire(Constants.RECORD_RANK,Constants.timeout);
+            RedisUtils.expire(Constants.RECORD_RANK,Constants.TIMEOUT);
             return R.ok(list);
         }
        return R.ok(RedisUtils.getCacheList(Constants.RECORD_RANK));

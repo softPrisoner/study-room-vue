@@ -20,5 +20,8 @@ public class XcxLoginUser extends LoginUser {
      * openid
      */
     private String openid;
-
+    /**
+     * 会话密钥
+     */
+    private String sessionKey;
 }

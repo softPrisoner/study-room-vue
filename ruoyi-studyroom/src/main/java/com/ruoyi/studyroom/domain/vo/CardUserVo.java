@@ -47,7 +47,7 @@ public class CardUserVo {
     @ApiModelProperty("卡片ID")
     private Long cardId;
 
-    private Card card;
+    private CardVo card;
 
 
 }

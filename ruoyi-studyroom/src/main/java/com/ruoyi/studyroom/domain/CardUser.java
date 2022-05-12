@@ -1,6 +1,7 @@
 package com.ruoyi.studyroom.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.ruoyi.studyroom.domain.vo.CardVo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.io.Serializable;
@@ -35,4 +36,6 @@ public class CardUser extends BaseEntity {
      */
     private Long cardId;
 
+    @TableField(exist = false)
+    private Card card;
 }

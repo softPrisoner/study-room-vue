@@ -2,28 +2,23 @@ package com.ruoyi.studyroom.service;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import cn.binarywang.wx.miniapp.config.WxMaConfig;
+import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.constant.Constants;
-import com.ruoyi.common.constant.UserConstants;
-import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.model.XcxLoginUser;
 import com.ruoyi.common.core.service.LogininforService;
 import com.ruoyi.common.enums.DeviceType;
-import com.ruoyi.common.enums.UserStatus;
 import com.ruoyi.common.enums.WxUserStatus;
 import com.ruoyi.common.exception.user.UserException;
 import com.ruoyi.common.helper.LoginHelper;
-import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.MessageUtils;
 import com.ruoyi.common.utils.ServletUtils;
-import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.config.WxMaConfiguration;
 import com.ruoyi.studyroom.domain.User;
 import com.ruoyi.studyroom.domain.bo.UserBo;
-import com.ruoyi.studyroom.domain.vo.UserVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -45,14 +40,14 @@ public class WxLoginService {
 
     private final IUserService userService;
     private final LogininforService asyncService;
+    final WxMaService wxMaService = WxMaConfiguration.getMaService("wx1d73696716e9918c");
 
-
-    public String wxLogin(String appid, String code) throws WxErrorException {
+    public String wxLogin( String code) throws WxErrorException {
         HttpServletRequest request = ServletUtils.getRequest();
         // xcxCode 为 小程序调用 wx.login 授权后获取
         //
         // 校验 appid + appsrcret + xcxCode 调用登录凭证校验接口 获取 session_key 与 openid
-        final WxMaService wxMaService = WxMaConfiguration.getMaService(appid);
+
         WxMaJscode2SessionResult result = wxMaService.jsCode2SessionInfo(code);
         String openid = result.getOpenid();
 
@@ -64,6 +59,7 @@ public class WxLoginService {
         loginUser.setUsername(user.getNickname());
         loginUser.setUserType("app_user");
         loginUser.setOpenid(openid);
+        loginUser.setSessionKey(result.getSessionKey());
         // 生成token
         LoginHelper.loginByDevice(loginUser, DeviceType.XCX);
 
@@ -72,6 +68,33 @@ public class WxLoginService {
         return StpUtil.getTokenValue();
     }
 
+    /**
+     * 获取手机号码
+     * @param code
+     * @return
+     * @throws WxErrorException
+     */
+    public WxMaPhoneNumberInfo getPhone(String code) throws WxErrorException {
+        WxMaPhoneNumberInfo phoneNoInfo = wxMaService.getUserService().getNewPhoneNoInfo(code);
+        String phoneNumber = phoneNoInfo.getPhoneNumber();
+        User user = userService.selectUserByOpenid(LoginHelper.getWxLoginUser().getOpenid());
+        user.setPhone(phoneNumber);
+        userService.updateByBo(BeanUtil.toBean(user,UserBo.class));
+        return phoneNoInfo;
+    }
+
+    public Boolean getUserInfo(String sessionKey, String encryptedData, String ivStr){
+        WxMaUserInfo userInfo = wxMaService.getUserService().getUserInfo(sessionKey, encryptedData, ivStr);
+        User user = userService.selectUserByOpenid(LoginHelper.getWxLoginUser().getOpenid());
+        user.setNickname(userInfo.getNickName());
+        user.setAvatarUrl(userInfo.getAvatarUrl());
+        user.setSex(Integer.valueOf(userInfo.getGender()));
+        if (user.getStatus()== null){
+            user.setStatus(1);
+        }
+
+        return userService.updateByBo(BeanUtil.toBean(user,UserBo.class));
+    }
 
     public void logout(String userName){
         asyncService.recordLogininfor(userName,Constants.LOGOUT,MessageUtils.message("user.logout.success"),ServletUtils.getRequest());
@@ -104,8 +127,7 @@ public class WxLoginService {
 
         } else if (WxUserStatus.DISABLE.getCode().equals(String.valueOf(user.getStatus()))) {
             log.info("登录用户：{} 已被停用.", openid);
-            throw new UserException("您的账号已被停用，请联系店家。");
-
+            throw new UserException("user.blocked",user.getPhone());
         }
         return user;
     }

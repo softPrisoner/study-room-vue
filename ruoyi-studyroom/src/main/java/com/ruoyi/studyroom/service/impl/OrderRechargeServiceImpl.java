@@ -1,6 +1,7 @@
 package com.ruoyi.studyroom.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.ruoyi.common.constant.PayConstants;
 import com.ruoyi.common.helper.LoginHelper;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -18,6 +19,7 @@ import com.ruoyi.studyroom.domain.vo.OrderRechargeVo;
 import com.ruoyi.studyroom.domain.OrderRecharge;
 import com.ruoyi.studyroom.mapper.OrderRechargeMapper;
 import com.ruoyi.studyroom.service.IOrderRechargeService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -107,8 +109,15 @@ public class OrderRechargeServiceImpl implements IOrderRechargeService {
      * @param bo 充值订单
      * @return 结果
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean updateByBo(OrderRechargeBo bo) {
+        if (PayConstants.CONSUMED.equals(bo.getPayStatus())){
+            BalanceVo balanceVo = balanceService.queryByUserId(bo.getUserId());
+            BalanceBo balanceBo = BeanUtil.toBean(balanceVo, BalanceBo.class);
+            balanceBo.setBalance(balanceVo.getBalance()+bo.getRechargeTotal());
+            balanceService.updateByBo(balanceBo);
+        }
         OrderRecharge update = BeanUtil.toBean(bo, OrderRecharge.class);
         validEntityBeforeSave(update);
         return baseMapper.updateById(update) > 0;
@@ -120,8 +129,10 @@ public class OrderRechargeServiceImpl implements IOrderRechargeService {
      * @param bo
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean updateByBoAndBalance(OrderRechargeBo bo) {
+        bo.setUserId(LoginHelper.getUserId());
         BalanceVo balanceVo = balanceService.queryByUserId(LoginHelper.getUserId());
         BalanceBo balanceBo = BeanUtil.toBean(balanceVo, BalanceBo.class);
         balanceBo.setBalance(balanceVo.getBalance()+bo.getRechargeTotal());

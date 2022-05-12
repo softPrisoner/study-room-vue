@@ -171,6 +171,7 @@ public class PayController extends BaseController {
 
         //更新订单表，支付状态为 已消费
         orderBo.setPayStatus(PayConstants.CONSUMED);
+        orderBo.setUserId(LoginHelper.getUserId());
         return toAjax(orderService.updateByBoAndRank(orderBo));
     }
 

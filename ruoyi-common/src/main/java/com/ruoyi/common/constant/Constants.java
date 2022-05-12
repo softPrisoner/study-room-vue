@@ -148,6 +148,15 @@ public interface Constants {
     /**
      * key过期时间1小时
      */
-    Long timeout = 60 * 60L;
+    Long TIMEOUT = 60 * 60L;
+
+    /**
+     * 付款方式 余额
+     */
+    Integer PAY_BALANCE = 0;
+    /**
+     * 付款方式 余额
+     */
+    Integer PAY_CARD = 1;
 }
 
