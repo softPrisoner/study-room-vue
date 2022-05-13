@@ -122,4 +122,11 @@ public class WxUserContrller extends BaseController {
         }
        return R.ok(RedisUtils.getCacheList(Constants.RECORD_RANK));
     }
+
+    @ApiOperation("获取用户自己的学习记录排行榜")
+    @GetMapping("/record/mine")
+    public R<RecordVo> recordByUserId() {
+
+        return R.ok(recordService.queryByUserId(LoginHelper.getUserId()));
+    }
 }

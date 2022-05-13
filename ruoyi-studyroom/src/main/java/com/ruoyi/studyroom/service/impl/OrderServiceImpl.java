@@ -66,7 +66,7 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public TableDataInfo<OrderVo> queryPageList(OrderBo bo, PageQuery pageQuery) {
         LambdaQueryWrapper<Order> lqw = buildQueryWrapper(bo);
-        Page<OrderVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
+        Page<OrderVo> result = baseMapper.selectVoAndSeatPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }
 

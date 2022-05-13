@@ -93,4 +93,21 @@ public class OrderVo {
     @ApiModelProperty("小时数")
     private Double hours;
 
+    /**
+     * 自习室名字
+     */
+    private String roomName;
+
+    /**
+     * 座位号
+     */
+    private Integer seatNum;
+    /**
+     * 座位区域
+     */
+    private Integer seatArea;
+    /**
+     * 区域名字
+     */
+    private String areaName;
 }
