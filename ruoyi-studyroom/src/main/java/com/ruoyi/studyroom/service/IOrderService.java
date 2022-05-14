@@ -71,5 +71,5 @@ public interface IOrderService {
      * @param orderBo
      * @return
      */
-    Boolean updateByBoAndRank(OrderBo orderBo);
+    Boolean updateByBoAndRank(OrderBo orderBo) throws Exception;
 }

@@ -154,9 +154,21 @@ public interface Constants {
      * 付款方式 余额
      */
     Integer PAY_BALANCE = 0;
+
     /**
      * 付款方式 余额
      */
     Integer PAY_CARD = 1;
+
+     /**
+     * 座位区域经济区
+     */
+    Integer SEAT_COM = 0;
+
+     /**
+     * 座位区域舒适区
+     */
+    Integer SEAT_VIP = 1;
+
 }
 

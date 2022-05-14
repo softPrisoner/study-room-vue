@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import javax.validation.constraints.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.ruoyi.common.core.domain.BaseEntity;
@@ -44,7 +45,7 @@ public class BalanceBo extends BaseEntity {
      */
     @ApiModelProperty(value = "余额", required = true)
     @NotNull(message = "余额不能为空", groups = { AddGroup.class, EditGroup.class })
-    private Long balance;
+    private Integer balance;
 
 
 }

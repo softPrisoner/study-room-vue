@@ -170,7 +170,7 @@ public class UserServiceImpl implements IUserService {
         User user = insertByOpenid(bo);
         BalanceBo balanceBo = new BalanceBo();
         balanceBo.setUserId(user.getUserId());
-        balanceBo.setBalance(0L);
+        balanceBo.setBalance(0);
         RecordBo recordBo = new RecordBo();
         recordBo.setUserId(user.getUserId());
         recordBo.setHours(0.00);

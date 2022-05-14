@@ -148,7 +148,7 @@ public class PayController extends BaseController {
 
 
     @ApiOperation("预定座位")
-    @PutMapping("/order/seat")
+    @PostMapping("/order/seat")
     public R<Void> orderSeat(@RequestBody OrderBo orderBo){
         Date startTime = orderBo.getStartTime();
         DateTime now = DateUtil.date();
@@ -167,12 +167,19 @@ public class PayController extends BaseController {
 
     @ApiOperation("消费座位")
     @PutMapping("/order/seat/consumed")
-    public R<Void> orderSeatConsumed(@RequestBody OrderBo orderBo){
+    public R<Object> orderSeatConsumed(@RequestBody OrderBo orderBo){
 
         //更新订单表，支付状态为 已消费
         orderBo.setPayStatus(PayConstants.CONSUMED);
         orderBo.setUserId(LoginHelper.getUserId());
-        return toAjax(orderService.updateByBoAndRank(orderBo));
+        try {
+            orderService.updateByBoAndRank(orderBo);
+            return R.ok();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.fail(e.getMessage());
+        }
+
     }
 
 }

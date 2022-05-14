@@ -1,6 +1,8 @@
 package com.ruoyi.studyroom.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.domain.PageQuery;
@@ -15,6 +17,7 @@ import com.ruoyi.studyroom.domain.SeatRecord;
 import com.ruoyi.studyroom.mapper.SeatRecordMapper;
 import com.ruoyi.studyroom.service.ISeatRecordService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
@@ -140,13 +143,13 @@ public class SeatRecordServiceImpl implements ISeatRecordService {
      */
     @Override
     public List<SeatRecordVo> queryListByTime(SeatRecordBo bo) {
-
+        DateTime end = DateUtil.endOfDay(bo.getStartTime());
         LambdaQueryWrapper<SeatRecord> lqw = Wrappers.lambdaQuery();
         lqw.eq(SeatRecord::getRoomId, bo.getRoomId());
         lqw.and(time-> {
-            time.between(SeatRecord::getStartTime, bo.getStartTime(), bo.getEndTime())
+            time.between(SeatRecord::getStartTime, bo.getStartTime(), end)
                     .or()
-                    .between(SeatRecord::getEndTime, bo.getStartTime(), bo.getEndTime());
+                    .between(SeatRecord::getEndTime, bo.getStartTime(), end);
         });
         return baseMapper.selectVoList(lqw);
     }

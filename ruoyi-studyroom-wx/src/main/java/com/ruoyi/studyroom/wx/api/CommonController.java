@@ -3,6 +3,7 @@ package com.ruoyi.studyroom.wx.api;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
+import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -26,10 +27,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ProjectName: study-room-vue
@@ -71,6 +69,8 @@ public class CommonController {
     @ApiOperation("座位详情")
     @PostMapping("/seat")
     public R<Reserved> seat(@RequestBody SeatRecordBo bo){
+        List<SeatVo> seatVip = new ArrayList<>();
+        List<SeatVo> seatCom = new ArrayList<>();
         //查询在开始结束时间段不可预定的座位列表
         List<SeatRecordVo> list = seatRecordService.queryListByTime(bo);
         SeatBo seatBo = new SeatBo();
@@ -82,16 +82,24 @@ public class CommonController {
         if (!list.isEmpty()){
             seatVos.forEach(item -> {
                 for (SeatRecordVo seatRecordVo : list) {
-                    item.setStatus(!item.getSeatId().equals(seatRecordVo.getSeatId()));
+                    if (item.getSeatId().equals(seatRecordVo.getSeatId())){
+                        item.setStatus(false);
+                        break;
+                    }else{
+                        item.setStatus(true);
+                    }
                 }
+                boolean b = Constants.SEAT_COM.equals(item.getSeatArea()) ? seatCom.add(item) : seatVip.add(item);
             });
         }else{
             seatVos.forEach(item -> {
                 item.setStatus(true);
+                boolean b = Constants.SEAT_COM.equals(item.getSeatArea()) ? seatCom.add(item) : seatVip.add(item);
             });
         }
         return R.ok(Reserved.builder()
-                .seat(seatVos)
+                .seatCom(seatCom)
+                .seatVip(seatVip)
                 .reservedNum(list.size())
                 .noReservedNum(seatVos.size() - list.size())
                 .build());

@@ -95,11 +95,14 @@ public class OrderBo extends BaseEntity {
     private Integer payStatus;
 
     @ApiModelProperty("支付方式 0余额 1时卡")
-    private Integer flag;
+    private Integer payMethod;
 
     @ApiModelProperty("总计余额")
     private Integer total;
 
     @ApiModelProperty("小时数")
     private Double hours;
+
+
+
 }

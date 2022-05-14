@@ -66,4 +66,15 @@ public class Order extends BaseEntity {
      * 小时数
      */
     private Double hours;
+
+    /**
+     * 支付方式
+     */
+    private Integer payMethod;
+
+
+    /**
+     * 总金额
+     */
+    private Integer total;
 }

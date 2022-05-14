@@ -65,7 +65,7 @@ public class OrderRechargeBo extends BaseEntity {
      */
     @ApiModelProperty(value = "充值额度", required = true)
     @NotNull(message = "充值额度不能为空", groups = { AddGroup.class, EditGroup.class })
-    private Long rechargeTotal;
+    private Integer rechargeTotal;
 
     /**
      * 付款状态

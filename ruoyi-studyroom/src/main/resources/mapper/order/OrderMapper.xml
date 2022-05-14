@@ -19,14 +19,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="seatNum" column="seat_num"/>
         <result property="seatArea" column="seat_area"/>
         <result property="areaName" column="area_name"/>
+        <result property="total" column="total"/>
+        <result property="payMethod" column="pay_method"/>
     </resultMap>
 
     <select id="selectVoAndSeatPage" resultMap="OrderResult">
         select order_id,user_id,description,start_time,end_time,hours,pay_status,room_name,
-               area_name,seat_num,seat_area
+               area_name,seat_num,seat_area,total,pay_method
         from sr_order so
                  left join sr_room sr on so.room_id = sr.room_id
                  left join sr_seat ss on so.seat_id = ss.seat_id
-        ${ew.customSqlSegment} order by so.start_time
+        ${ew.customSqlSegment} order by so.start_time desc,pay_status
     </select>
 </mapper>

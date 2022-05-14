@@ -83,6 +83,8 @@ public class OrderRechargeServiceImpl implements IOrderRechargeService {
         lqw.eq(bo.getAmountTotal() != null, OrderRecharge::getAmountTotal, bo.getAmountTotal());
         lqw.eq(bo.getRechargeTotal() != null, OrderRecharge::getRechargeTotal, bo.getRechargeTotal());
         lqw.eq(bo.getPayStatus() != null, OrderRecharge::getPayStatus, bo.getPayStatus());
+        lqw.orderByDesc(OrderRecharge::getCreateTime);
+        lqw.orderByAsc(OrderRecharge::getPayStatus);
         return lqw;
     }
 
@@ -115,7 +117,7 @@ public class OrderRechargeServiceImpl implements IOrderRechargeService {
         if (PayConstants.CONSUMED.equals(bo.getPayStatus())){
             BalanceVo balanceVo = balanceService.queryByUserId(bo.getUserId());
             BalanceBo balanceBo = BeanUtil.toBean(balanceVo, BalanceBo.class);
-            balanceBo.setBalance(balanceVo.getBalance()+bo.getRechargeTotal());
+            balanceBo.setBalance(Math.toIntExact(balanceVo.getBalance() + bo.getRechargeTotal()));
             balanceService.updateByBo(balanceBo);
         }
         OrderRecharge update = BeanUtil.toBean(bo, OrderRecharge.class);
@@ -135,7 +137,7 @@ public class OrderRechargeServiceImpl implements IOrderRechargeService {
         bo.setUserId(LoginHelper.getUserId());
         BalanceVo balanceVo = balanceService.queryByUserId(LoginHelper.getUserId());
         BalanceBo balanceBo = BeanUtil.toBean(balanceVo, BalanceBo.class);
-        balanceBo.setBalance(balanceVo.getBalance()+bo.getRechargeTotal());
+        balanceBo.setBalance(Math.toIntExact(balanceVo.getBalance() + bo.getRechargeTotal()));
         balanceService.updateByBo(balanceBo);
         return updateByBo(bo);
     }

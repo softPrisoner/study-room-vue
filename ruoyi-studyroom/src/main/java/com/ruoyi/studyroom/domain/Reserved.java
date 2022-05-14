@@ -20,8 +20,11 @@ import java.util.List;
 public class Reserved {
 
 
-    @ApiModelProperty("所有座位列表")
-    private List<SeatVo> seat;
+    @ApiModelProperty("所有舒适区座位列表")
+    private List<SeatVo> seatVip;
+
+    @ApiModelProperty("所有经济区座位列表")
+    private List<SeatVo> seatCom;
 
     @ApiModelProperty("已预约座位数")
     private Integer reservedNum;

@@ -1,8 +1,12 @@
 package com.ruoyi.studyroom.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.constant.PayConstants;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.helper.LoginHelper;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -106,9 +110,11 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public Boolean insertByBo(OrderBo bo) {
         //使用账户余额预定座位
-        if (Constants.PAY_BALANCE.equals(bo.getFlag())){
-            BalanceVo balanceVo = balanceService.queryById(LoginHelper.getUserId());
+        if (Constants.PAY_BALANCE.equals(bo.getPayMethod())){
+            BalanceVo balanceVo = balanceService.queryByUserId(LoginHelper.getUserId());
             BalanceBo balanceBo = BeanUtil.toBean(balanceVo, BalanceBo.class);
+            System.out.println(balanceBo.getBalance());
+            System.out.println(bo.getTotal());
             if ( balanceBo.getBalance() >= bo.getTotal()){
                 balanceBo.setBalance(balanceBo.getBalance() - bo.getTotal());
                 balanceService.updateByBo(balanceBo);
@@ -160,13 +166,22 @@ public class OrderServiceImpl implements IOrderService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Boolean updateByBoAndRank(OrderBo orderBo) {
+    public Boolean updateByBoAndRank(OrderBo orderBo) throws Exception {
+        LambdaQueryWrapper<Order> lqw = Wrappers.lambdaQuery();
+        lqw.eq(Order::getOrderId, orderBo.getOrderId());
         Order update = BeanUtil.toBean(orderBo, Order.class);
         RecordVo recordVo = recordService.queryByUserId(LoginHelper.getUserId());
         RecordBo recordBo = BeanUtil.toBean(recordVo, RecordBo.class);
-        recordBo.setHours(recordVo.getHours()+ orderBo.getHours());
-        boolean order = baseMapper.updateById(update) > 0;
-        return Objects.equals(order, recordService.updateByBo(recordBo));
+        recordBo.setHours(recordVo.getHours() + orderBo.getHours());
+        boolean order = baseMapper.update(update,lqw) > 0;
+        Boolean updateByBo = recordService.updateByBo(recordBo);
+        if(!order){
+            throw new ServiceException("操作失败，请重试");
+        }
+        if (!updateByBo){
+            throw new ServiceException("操作失败，请重试");
+        }
+        return true;
     }
 
     /**

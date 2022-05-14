@@ -46,7 +46,7 @@ public class SeatServiceTest {
             SeatBo bo = new SeatBo();
             bo.setRoomId(1523594314784546818L);
             bo.setSeatArea(0);
-            bo.setAreaName("W区舒适区");
+            bo.setAreaName("W区经济区");
             bo.setSeatNum(i);
             service.insertByBo(bo);
         }

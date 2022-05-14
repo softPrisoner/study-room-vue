@@ -90,8 +90,17 @@ public class OrderVo {
     @ApiModelProperty("付款状态")
     private Integer payStatus;
 
+
+    @ExcelProperty(value = "小时数")
     @ApiModelProperty("小时数")
     private Double hours;
+
+    @ApiModelProperty("支付方式 0余额 1时卡")
+    private Integer payMethod;
+
+    @ApiModelProperty("总计余额")
+    private Integer total;
+
 
     /**
      * 自习室名字

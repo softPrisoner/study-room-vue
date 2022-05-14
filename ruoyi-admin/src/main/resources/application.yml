@@ -141,7 +141,8 @@ security:
     - /actuator
     - /actuator/**
     - /api/wx/login
-    - /api/wx/common/store/**
+    - /api/wx/common/store
+    - /api/wx/common/swiper
 
 # MyBatisPlus配置
 # https://baomidou.com/config/

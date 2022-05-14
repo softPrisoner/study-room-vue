@@ -95,7 +95,7 @@ public class SeatServiceImpl implements ISeatService {
         validEntityBeforeSave(add);
         boolean flag = baseMapper.insert(add) > 0;
         RoomSeatBo roomSeatBo = new RoomSeatBo();
-        roomSeatBo.setSeatId(bo.getSeatId());
+        roomSeatBo.setSeatId(add.getSeatId());
         roomSeatBo.setRoomId(bo.getRoomId());
         roomSeatService.insertByBo(roomSeatBo);
         if (flag) {
