@@ -7,6 +7,8 @@ import com.ruoyi.common.convert.ExcelDictConvert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -57,14 +59,14 @@ public class OrderRechargeVo {
      */
     @ExcelProperty(value = "支付金额")
     @ApiModelProperty("支付金额")
-    private Long amountTotal;
+    private BigDecimal amountTotal;
 
     /**
      * 充值额度
      */
     @ExcelProperty(value = "充值额度")
     @ApiModelProperty("充值额度")
-    private Long rechargeTotal;
+    private Integer rechargeTotal;
 
     /**
      * 付款状态

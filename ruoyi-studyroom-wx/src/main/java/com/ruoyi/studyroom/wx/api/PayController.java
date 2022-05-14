@@ -31,6 +31,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -86,15 +88,15 @@ public class PayController extends BaseController {
     @PostMapping("/createOrder/recharge")
     public R<Object> payRecharge(@RequestBody OrderRechargeBo bo) {
         String orderNo = OrderNumUtils.getOrderNum();
-
+        System.out.println(bo.getAmountTotal());
         WxPayUnifiedOrderV3Request.Payer payer = new WxPayUnifiedOrderV3Request.Payer();
         WxPayUnifiedOrderV3Request.Amount amount = new WxPayUnifiedOrderV3Request.Amount();
         WxPayUnifiedOrderV3Request request = new WxPayUnifiedOrderV3Request();
         bo.setUserId(LoginHelper.getUserId());
         bo.setOrderId(orderNo);
         bo.setPayStatus(PayConstants.UNPAID);
-
-        amount.setTotal(Integer.parseInt(bo.getAmountTotal().multiply(Constants.MULTIPLE).toString()));
+        BigInteger total = bo.getAmountTotal().multiply(Constants.MULTIPLE).toBigInteger();
+        amount.setTotal(total.intValue());
 
         request.setPayer(payer.setOpenid(LoginHelper.getWxLoginUser().getOpenid()));
         request.setAmount(amount);
@@ -109,17 +111,18 @@ public class PayController extends BaseController {
             Object orderV3 = this.payService.createOrderV3(TradeTypeEnum.JSAPI, request);
             return R.ok(orderV3);
         } catch (WxPayException e) {
-            return R.fail(e.getReturnMsg());
+            return R.fail("发生系统错误，请联系管理员");
         }
     }
 
     @ApiOperation(value = "支付回调通知处理")
     @PostMapping("/notify/order")
     public String parseOrderNotifyResult(@RequestBody String data) throws WxPayException {
-        WxPayOrderNotifyV3Result v3Result = this.payService.parseOrderNotifyV3Result(data, null);
+        WxPayOrderNotifyV3Result v3Result = this.payService.parseOrderNotifyV3Result((String) data, null);
         String attach = v3Result.getResult().getAttach();
         String outTradeNo = v3Result.getResult().getOutTradeNo();
         //优惠卡充值订单回调
+        System.out.println(attach);
         if (Constants.CARD.equals(attach)){
             OrderCardVo vo = orderCardService.queryByOrderId(outTradeNo);
             if (ObjectUtil.isNotNull(vo)){

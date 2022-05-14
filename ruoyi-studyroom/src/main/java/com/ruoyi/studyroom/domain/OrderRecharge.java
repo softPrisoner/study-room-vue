@@ -41,11 +41,11 @@ public class OrderRecharge extends BaseEntity {
     /**
      * 支付金额
      */
-    private Long amountTotal;
+    private BigDecimal amountTotal;
     /**
      * 充值额度
      */
-    private Long rechargeTotal;
+    private Integer rechargeTotal;
     /**
      * 付款状态
      */

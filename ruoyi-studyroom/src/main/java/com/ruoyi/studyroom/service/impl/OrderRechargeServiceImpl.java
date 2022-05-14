@@ -134,8 +134,8 @@ public class OrderRechargeServiceImpl implements IOrderRechargeService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean updateByBoAndBalance(OrderRechargeBo bo) {
-        bo.setUserId(LoginHelper.getUserId());
-        BalanceVo balanceVo = balanceService.queryByUserId(LoginHelper.getUserId());
+        bo.setUserId(bo.getUserId());
+        BalanceVo balanceVo = balanceService.queryByUserId(bo.getUserId());
         BalanceBo balanceBo = BeanUtil.toBean(balanceVo, BalanceBo.class);
         balanceBo.setBalance(Math.toIntExact(balanceVo.getBalance() + bo.getRechargeTotal()));
         balanceService.updateByBo(balanceBo);
