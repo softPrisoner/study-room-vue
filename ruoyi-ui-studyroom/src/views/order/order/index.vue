@@ -54,8 +54,8 @@
       <el-table-column label="主键" align="center" prop="id" :show-overflow-tooltip="true" v-if="false" />
       <el-table-column label="订单编号" align="center" prop="orderId" min-width="100" :show-overflow-tooltip="true" />
       <el-table-column label="会员ID" align="center" prop="userId" min-width="100" :show-overflow-tooltip="true" />
-      <el-table-column label="自习室ID" align="center" prop="roomId" min-width="100" :show-overflow-tooltip="true" />
-      <el-table-column label="座位ID" align="center" prop="seatId" min-width="100" :show-overflow-tooltip="true" />
+      <el-table-column label="自习室名称" align="center" prop="roomName" min-width="100" :show-overflow-tooltip="true" />
+      <el-table-column label="座位号" align="center" prop="seatNum" min-width="100" :show-overflow-tooltip="true" />
       <el-table-column label="商品描述" align="center" prop="description" min-width="100" :show-overflow-tooltip="true" />
       <el-table-column label="开始时间" align="center" prop="startTime" width="180">
         <template slot-scope="scope">
