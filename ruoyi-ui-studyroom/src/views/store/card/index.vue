@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="78px">
       <el-form-item label="优惠卡" prop="cardTitle">
         <el-input v-model="queryParams.cardTitle" placeholder="请输入优惠卡" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
