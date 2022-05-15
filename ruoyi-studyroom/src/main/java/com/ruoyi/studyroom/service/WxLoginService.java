@@ -44,15 +44,11 @@ public class WxLoginService {
 
     public String wxLogin( String code) throws WxErrorException {
         HttpServletRequest request = ServletUtils.getRequest();
-        // xcxCode 为 小程序调用 wx.login 授权后获取
-        //
+        // code 为 小程序调用 wx.login 授权后获取
         // 校验 appid + appsrcret + xcxCode 调用登录凭证校验接口 获取 session_key 与 openid
-
         WxMaJscode2SessionResult result = wxMaService.jsCode2SessionInfo(code);
         String openid = result.getOpenid();
-
         User user = loadUserByOpenid(openid);
-
         // 此处可根据登录用户的数据不同 自行创建 loginUser
         XcxLoginUser loginUser = new XcxLoginUser();
         loginUser.setUserId(user.getUserId());

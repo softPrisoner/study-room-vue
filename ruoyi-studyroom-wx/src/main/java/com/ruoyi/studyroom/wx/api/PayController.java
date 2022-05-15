@@ -97,7 +97,6 @@ public class PayController extends BaseController {
         bo.setPayStatus(PayConstants.UNPAID);
         BigInteger total = bo.getAmountTotal().multiply(Constants.MULTIPLE).toBigInteger();
         amount.setTotal(total.intValue());
-
         request.setPayer(payer.setOpenid(LoginHelper.getWxLoginUser().getOpenid()));
         request.setAmount(amount);
         request.setDescription(bo.getDescription());
