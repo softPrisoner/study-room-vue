@@ -1,5 +1,6 @@
 package com.ruoyi.studyroom.domain.bo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.validate.AddGroup;
 import com.ruoyi.common.core.validate.EditGroup;
 import io.swagger.annotations.ApiModel;
@@ -11,6 +12,7 @@ import javax.validation.constraints.*;
 import java.util.Date;
 
 import com.ruoyi.common.core.domain.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 优惠卡-会员关联业务对象 sr_card_user
@@ -46,4 +48,13 @@ public class CardUserBo extends BaseEntity {
     private Long cardId;
 
 
+
+    /**
+     * 过期时间
+     */
+    @ApiModelProperty(value = "过期时间", required = true)
+    @NotNull(message = "过期时间不能为空", groups = { AddGroup.class, EditGroup.class })
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date expiryTime;
 }

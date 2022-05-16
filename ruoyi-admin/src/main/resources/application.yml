@@ -143,6 +143,7 @@ security:
     - /api/wx/login
     - /api/wx/common/store
     - /api/wx/common/swiper
+    - /api/wx/common/card
     - /api/wx/pay/notify/order
 
 # MyBatisPlus配置
@@ -306,4 +307,4 @@ wx:
     apiV3Key: zumanongwangluogongzuoshi8691411
     privateKeyPath: classpath:/apiclient_key.pem # p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
     privateCertPath: classpath:/apiclient_cert.pem # p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
-    notifyUrl: http://qqz710999c1.ngrok.wendal.cn/api/wx/pay/notify/order
+    notifyUrl: http://39z712290i.qicp.vip/api/wx/pay/notify/order

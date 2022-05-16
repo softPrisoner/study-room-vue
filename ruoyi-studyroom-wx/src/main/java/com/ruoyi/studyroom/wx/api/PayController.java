@@ -64,8 +64,7 @@ public class PayController extends BaseController {
         bo.setUserId(LoginHelper.getUserId());
         bo.setOrderId(orderNo);
         bo.setPayStatus(PayConstants.UNPAID);
-
-        amount.setTotal(Integer.parseInt(bo.getAmountTotal().multiply(Constants.MULTIPLE).toString()));
+        amount.setTotal(bo.getAmountTotal().multiply(Constants.MULTIPLE).intValue());
         request.setPayer(payer.setOpenid(LoginHelper.getWxLoginUser().getOpenid()));
         request.setAmount(amount);
         request.setDescription(bo.getDescription());
@@ -95,8 +94,7 @@ public class PayController extends BaseController {
         bo.setUserId(LoginHelper.getUserId());
         bo.setOrderId(orderNo);
         bo.setPayStatus(PayConstants.UNPAID);
-        BigInteger total = bo.getAmountTotal().multiply(Constants.MULTIPLE).toBigInteger();
-        amount.setTotal(total.intValue());
+        amount.setTotal(bo.getAmountTotal().multiply(Constants.MULTIPLE).intValue());
         request.setPayer(payer.setOpenid(LoginHelper.getWxLoginUser().getOpenid()));
         request.setAmount(amount);
         request.setDescription(bo.getDescription());

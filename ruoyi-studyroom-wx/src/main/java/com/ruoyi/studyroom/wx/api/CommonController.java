@@ -1,29 +1,15 @@
 package com.ruoyi.studyroom.wx.api;
 
-import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.date.DateTime;
-import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.studyroom.domain.Reserved;
-import com.ruoyi.studyroom.domain.bo.RoomBo;
-import com.ruoyi.studyroom.domain.bo.SeatBo;
-import com.ruoyi.studyroom.domain.bo.SeatRecordBo;
-import com.ruoyi.studyroom.domain.bo.SwiperBo;
-import com.ruoyi.studyroom.domain.vo.RoomVo;
-import com.ruoyi.studyroom.domain.vo.SeatRecordVo;
-import com.ruoyi.studyroom.domain.vo.SeatVo;
-import com.ruoyi.studyroom.domain.vo.SwiperVo;
-import com.ruoyi.studyroom.service.IRoomService;
-import com.ruoyi.studyroom.service.ISeatRecordService;
-import com.ruoyi.studyroom.service.ISeatService;
-import com.ruoyi.studyroom.service.ISwiperService;
+import com.ruoyi.studyroom.domain.bo.*;
+import com.ruoyi.studyroom.domain.vo.*;
+import com.ruoyi.studyroom.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +25,7 @@ import java.util.*;
 @Api(value = "通用资源请求控制器",tags = "通用资源请求")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/wx/common/")
+@RequestMapping("/api/wx/common")
 public class CommonController {
 
 
@@ -47,9 +33,9 @@ public class CommonController {
     private final ISwiperService swiperService;
     private final ISeatRecordService seatRecordService;
     private final ISeatService seatService;
-
+    private final ICardService cardService;
     @ApiOperation("门店信息")
-    @GetMapping("store")
+    @GetMapping("/store")
     public R<TableDataInfo<RoomVo>> roomList(RoomBo bo, PageQuery pageQuery){
 
         return R.ok(roomService.queryPageList(bo,pageQuery));
@@ -57,11 +43,20 @@ public class CommonController {
 
 
     @ApiOperation("轮播图列表")
-    @GetMapping("swiper")
+    @GetMapping("/swiper")
     public R<List<SwiperVo>> swiper(){
         SwiperBo swiperBo = new SwiperBo();
         swiperBo.setStatus(1);
         return R.ok(swiperService.queryList(swiperBo));
+    }
+
+
+    @ApiOperation("优惠卡列表")
+    @GetMapping("/card")
+    public R<List<CardVo>> cardList(){
+        CardBo bo = new CardBo();
+        bo.setStatus(1);
+        return R.ok(cardService.queryList(bo));
     }
 
 

@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <select id="selectVoAndSeatPage" resultMap="OrderResult">
-        select order_id,user_id,description,start_time,end_time,hours,pay_status,room_name,
+        select id,order_id,user_id,description,start_time,end_time,hours,pay_status,room_name,
                area_name,seat_num,seat_area,total,pay_method
         from sr_order so
                  left join sr_room sr on so.room_id = sr.room_id

@@ -49,5 +49,8 @@ public class CardUserVo {
 
     private CardVo card;
 
+    @ExcelProperty(value = "过期时间")
+    @ApiModelProperty("过期时间")
+    private Date expiryTime;
 
 }

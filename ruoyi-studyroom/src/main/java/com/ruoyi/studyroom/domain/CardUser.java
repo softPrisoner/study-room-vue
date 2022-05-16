@@ -36,6 +36,11 @@ public class CardUser extends BaseEntity {
      */
     private Long cardId;
 
+    /**
+     * 过期时间
+     */
+    private Date expiryTime;
+
     @TableField(exist = false)
     private Card card;
 }

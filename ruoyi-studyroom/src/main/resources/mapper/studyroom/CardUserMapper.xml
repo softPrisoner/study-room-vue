@@ -8,8 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id" column="id"/>
         <result property="userId" column="user_id"/>
         <result property="cardId" column="card_id"/>
+        <result property="expiryTime" column="expiry_time"/>
         <association property="card" javaType="com.ruoyi.studyroom.domain.vo.CardVo">
-            <result property="id" column="id"/>
             <result property="cardTitle" column="card_title"/>
             <result property="price" column="price"/>
             <result property="usable" column="usable"/>
@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
     <select id="selectVoListByUserId" resultMap="CardUserResult">
         select
-        scu.user_id, sc.card_title, sc.price, sc.usable, sc.frequency, sc.term
+        scu.id,scu.card_id, scu.user_id, sc.card_title, sc.price, sc.usable, sc.frequency, sc.term,scu.expiry_time
         from sr_card_user scu
                      left join sr_card sc on scu.card_id = sc.id
         ${ew.customSqlSegment}

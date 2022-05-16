@@ -1,6 +1,8 @@
 package com.ruoyi.studyroom.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.domain.PageQuery;
@@ -8,7 +10,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ruoyi.studyroom.domain.bo.CardUserBo;
+import com.ruoyi.studyroom.domain.vo.CardVo;
+import com.ruoyi.studyroom.service.ICardService;
 import com.ruoyi.studyroom.service.ICardUserService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.ruoyi.studyroom.domain.bo.OrderCardBo;
@@ -34,6 +39,7 @@ public class OrderCardServiceImpl implements IOrderCardService {
 
     private final OrderCardMapper baseMapper;
     private final ICardUserService cardUserService;
+    private final ICardService cardService;
     /**
      * 查询购卡管理
      *
@@ -115,12 +121,15 @@ public class OrderCardServiceImpl implements IOrderCardService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean updateByBoAndCard(OrderCardBo bo) {
-
+        CardVo cardVo = cardService.queryById(bo.getCardId());
+        int term = cardVo.getTerm().intValue();
+        String now = DateUtil.now();
+        DateTime time = DateUtil.parse(now);
 
         CardUserBo cardUserBo = new CardUserBo();
         cardUserBo.setUserId(bo.getUserId());
         cardUserBo.setCardId(bo.getCardId());
-
+        cardUserBo.setExpiryTime(DateUtil.offsetDay(time,term));
         return updateByBo(bo).equals(cardUserService.insertByBo(cardUserBo));
     }
 
