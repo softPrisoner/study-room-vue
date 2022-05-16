@@ -40,12 +40,12 @@ public class SysUserOnlineController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo<SysUserOnline> list(String ipaddr, String userName) {
         // 获取所有未过期的 token
-        List<String> keys = StpUtil.searchTokenValue("", -1, 0);
+        List<String> keys = StpUtil.searchTokenValue("", -1, -1);
         List<UserOnlineDTO> userOnlineDTOList = new ArrayList<>();
         for (String key : keys) {
             String token = key.replace(Constants.LOGIN_TOKEN_KEY, "");
             // 如果已经过期则踢下线
-            if (StpUtil.stpLogic.getTokenActivityTimeoutByToken(token) < 0) {
+            if (StpUtil.stpLogic.getTokenActivityTimeoutByToken(token) < -1) {
                 continue;
             }
             userOnlineDTOList.add(RedisUtils.getCacheObject(Constants.ONLINE_TOKEN_KEY + token));

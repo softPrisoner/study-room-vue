@@ -1,5 +1,6 @@
 package com.ruoyi.studyroom.service;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.ListUtil;
 import com.ruoyi.RuoYiApplication;
 import com.ruoyi.common.constant.Constants;
@@ -32,43 +33,20 @@ import java.util.List;
 @SpringBootTest(classes = RuoYiApplication.class)
 public class SeatServiceTest {
 
-    @Autowired
-    private ISeatService service;
-    @Autowired
-    private IRoomSeatService roomSeatService;
-    @Autowired
-    private IRecordService recordService;
 
     @Test
-    public void insertSeat() {
-
-        for (int i = 1; i <= 20; i++) {
-            SeatBo bo = new SeatBo();
-            bo.setRoomId(1523594314784546818L);
-            bo.setSeatArea(0);
-            bo.setAreaName("W区经济区");
-            bo.setSeatNum(i);
-            service.insertByBo(bo);
+    public void getToken(){
+        List<String> keys = StpUtil.searchTokenValue("", -1, -1);
+        System.out.println(keys);
+        for (String key : keys) {
+            String token = key.replace(Constants.LOGIN_TOKEN_KEY, "");
+            // 如果已经过期则踢下线
+            System.out.println(StpUtil.stpLogic.getTokenActivityTimeoutByToken(token));
+            if (StpUtil.stpLogic.getTokenActivityTimeoutByToken(token) < 0) {
+                continue;
+            }
+            Object object = RedisUtils.getCacheObject(Constants.ONLINE_TOKEN_KEY + token);
+            System.out.println(object);
         }
-    }
-
-    @Test
-    public void insertRoomSeat() {
-        List<SeatVo> list = service.queryList(new SeatBo());
-        list.forEach(item -> {
-            RoomSeatBo bo = new RoomSeatBo();
-            bo.setSeatId(item.getSeatId());
-            bo.setRoomId(item.getRoomId());
-            roomSeatService.insertByBo(bo);
-        });
-
-    }
-
-    @Test
-    public void sort() {
-        List<RecordVo> list = recordService.queryDescList();
-        RedisUtils.setCacheList(Constants.RECORD_RANK, list);
-        RedisUtils.expire(Constants.RECORD_RANK,60L);
-
     }
 }

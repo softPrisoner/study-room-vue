@@ -56,6 +56,20 @@ public class UserActionListener implements SaTokenListener {
             log.info("user doLogin, userId:{}, token:{}", loginId, tokenValue);
         } else if (userType == UserType.APP_USER) {
             // app端 自行根据业务编写
+            UserAgent userAgent = UserAgentUtil.parse(ServletUtils.getRequest().getHeader("User-Agent"));
+            String ip = ServletUtils.getClientIP();
+            LoginUser user = LoginHelper.getLoginUser();
+            String tokenValue = StpUtil.getTokenValueByLoginId(loginId);
+            UserOnlineDTO dto = new UserOnlineDTO();
+            dto.setIpaddr(ip);
+            dto.setLoginLocation(AddressUtils.getRealAddressByIP(ip));
+            dto.setBrowser(userAgent.getBrowser().getName());
+            dto.setOs(userAgent.getOs().getName());
+            dto.setLoginTime(System.currentTimeMillis());
+            dto.setTokenId(tokenValue);
+            dto.setUserName(user.getUsername());
+            RedisUtils.setCacheObject(Constants.ONLINE_TOKEN_KEY + tokenValue, dto, tokenConfig.getTimeout(), TimeUnit.SECONDS);
+            log.info("user doLogin, userId:{}, token:{}", loginId, tokenValue);
         }
     }
 
