@@ -76,9 +76,9 @@ spring.datasource.druid:
 spring:
   redis:
     # 地址
-    host: 124.221.54.151
+    host: 127.0.0.1
     # 端口，默认为6379
-    port: 63892
+    port: 6379
     # 数据库索引
     database: 0
     # 密码

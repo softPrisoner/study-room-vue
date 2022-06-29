@@ -51,8 +51,8 @@
         <minio.version>8.3.8</minio.version>
 
         <!-- docker 配置 -->
-        <docker.registry.url>localhost</docker.registry.url>
-        <docker.registry.host>http://${docker.registry.url}:2375</docker.registry.host>
+        <docker.registry.url>178.128.97.144</docker.registry.url>
+        <docker.registry.host>http://${docker.registry.url}:63375</docker.registry.host>
         <docker.namespace>ruoyi</docker.namespace>
         <docker.plugin.version>1.2.2</docker.plugin.version>
 

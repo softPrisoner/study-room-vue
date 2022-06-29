@@ -27,7 +27,7 @@ captcha:
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080
-  port: 8080
+  port: 8081
   servlet:
     # 应用的访问路径
     context-path: /
@@ -301,10 +301,10 @@ wx:
         secret: bece47e5168e2243e9e1b5ddf4501d0a #微信小程序的Secret
         msgDataFormat: JSON
   pay:
-    appId: wx1d73696716e9918c #微信公众号或者小程序等的appid
-    mchId: 1623059334 #微信支付商户号
-    mchKey: zumanongwangluogongzuoshi8691411 #微信支付商户密钥
-    apiV3Key: zumanongwangluogongzuoshi8691411
-    privateKeyPath: classpath:/apiclient_key.pem # p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
-    privateCertPath: classpath:/apiclient_cert.pem # p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
-    notifyUrl: http://39z712290i.qicp.vip/api/wx/pay/notify/order
+    appId:  #微信公众号或者小程序等的appid
+    mchId:  #微信支付商户号
+    mchKey:  #微信支付商户密钥
+    apiV3Key: #微信支付商户密钥
+    privateKeyPath: #classpath:/apiclient_key.pem # p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
+    privateCertPath: #classpath:/apiclient_cert.pem # p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
+    notifyUrl: #http://39z712290i.qicp.vip/api/wx/pay/notify/order 微信支付回调地址

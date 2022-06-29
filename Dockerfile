@@ -8,7 +8,7 @@ RUN mkdir -p /ruoyi/server/temp
 
 WORKDIR /ruoyi/server
 
-EXPOSE 8080
+EXPOSE 8081
 
 ADD ./target/ruoyi-admin.jar ./app.jar
 
