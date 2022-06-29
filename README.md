@@ -1,6 +1,7 @@
 
 ## 原框架地址：[RuoYi-Vue-Plus: 后台管理系统 重写RuoYi-Vue所有功能 集成 Sa-Token+Mybatis-Plus+Jackson+Xxl-Job+knife4j+Hutool+OSS 定期同步 (gitee.com)](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus)
-## 在其基础上增加了一些微信小程序相关的接口功能
+## 在其基础上增加了一些微信小程序相关的接口功能作为自习室预约平台小程序的后端
+## 自习室预约平台微信小程序：[自习室预约平台微信小程序](https://gitee.com/zmn_repository/wx-study-room)
 
 ## 平台简介
 
