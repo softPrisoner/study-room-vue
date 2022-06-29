@@ -1,4 +1,10 @@
+<<<<<<< refs/remotes/origin/master
 ## 原框架地址：[RuoYi-Vue-Plus: 后台管理系统 重写RuoYi-Vue所有功能 集成 Sa-Token+Mybatis-Plus+Jackson+Xxl-Job+knife4j+Hutool+OSS 定期同步 (gitee.com)](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus) 在其基础上增加了一些微信小程序相关的接口功能
+=======
+## 原框架地址：[RuoYi-Vue-Plus: 后台管理系统 重写RuoYi-Vue所有功能 集成 Sa-Token+Mybatis-Plus+Jackson+Xxl-Job+knife4j+Hutool+OSS 定期同步 (gitee.com)](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus) 
+
+## 在其基础上增加了一些微信小程序相关的接口功能
+>>>>>>> update readme.md
 
 ## 平台简介
 
